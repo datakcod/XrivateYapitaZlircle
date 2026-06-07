@@ -4,6 +4,10 @@
 
 Transformando liquidez institucional em um ecossistema de capital produtivo.
 
+# Fluxograma
+
+<img width="857" height="479" alt="image" src="https://github.com/user-attachments/assets/e57921ed-6c67-4f4c-a8ef-e4a044045521" />
+
 ---
 
 # Visão Geral
