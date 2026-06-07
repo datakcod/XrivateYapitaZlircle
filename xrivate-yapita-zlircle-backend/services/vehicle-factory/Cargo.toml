@@ -1,0 +1,111 @@
+# ============================================
+# VEHICLE FACTORY - CARGO MANIFEST
+# ============================================
+# Serviço Rust para montagem de veículos financeiros
+# (SPVs, Fundos, Securitizações, Tokenização)
+
+[package]
+name = "vehicle-factory"
+version = "0.1.0"
+edition = "2021"
+authors = ["XrivateYapitaZlircle Team <engineering@xrivate.capital>"]
+description = "Montagem de veículos financeiros com atomicidade e performance"
+license = "Proprietary"
+repository = "https://github.com/xrivate/vehicle-factory"
+
+[dependencies]
+# ==========================================
+# WEB FRAMEWORK
+# ==========================================
+actix-web = "4.4"
+actix-rt = "2.9"
+actix-cors = "0.6"
+
+# ==========================================
+# gRPC
+# ==========================================
+tonic = "0.10"
+prost = "0.12"
+prost-types = "0.12"
+
+# ==========================================
+# ASYNC RUNTIME
+# ==========================================
+tokio = { version = "1.34", features = ["full", "tracing"] }
+futures = "0.3"
+async-trait = "0.1"
+
+# ==========================================
+# DATABASE
+# ==========================================
+sqlx = { version = "0.7", features = [
+    "runtime-tokio-rustls",
+    "postgres",
+    "uuid",
+    "chrono",
+    "json",
+    "migrate"
+] }
+
+# ==========================================
+# SERIALIZAÇÃO
+# ==========================================
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+# ==========================================
+# UTILITÁRIOS
+# ==========================================
+uuid = { version = "1.6", features = ["v4", "serde"] }
+chrono = { version = "0.4", features = ["serde"] }
+rust_decimal = { version = "1.33", features = ["serde-with-str"] }
+thiserror = "1.0"
+anyhow = "1.0"
+
+# ==========================================
+# LOGGING E TRACING
+# ==========================================
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "json"] }
+tracing-actix-web = "0.7"
+opentelemetry = "0.21"
+opentelemetry-otlp = "0.14"
+
+# ==========================================
+# KAFKA
+# ==========================================
+rdkafka = { version = "0.36", features = ["cmake-build"] }
+
+# ==========================================
+# REDIS
+# ==========================================
+redis = { version = "0.23", features = ["tokio-comp", "connection-manager"] }
+
+# ==========================================
+# VALIDAÇÃO
+# ==========================================
+validator = { version = "0.16", features = ["derive"] }
+
+# ==========================================
+# CONFIGURAÇÃO
+# ==========================================
+config = "0.13"
+dotenvy = "0.15"
+
+[build-dependencies]
+tonic-build = "0.10"
+
+[dev-dependencies]
+tokio-test = "0.4"
+mockall = "0.11"
+testcontainers = "0.15"
+
+[profile.release]
+opt-level = 3
+lto = "fat"
+codegen-units = 1
+strip = "symbols"
+
+[profile.dev]
+opt-level = 0
+debug = true
