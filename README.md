@@ -10,6 +10,139 @@ Transformando liquidez institucional em um ecossistema de capital produtivo.
 
 ---
 
+<img width="50" height="50" alt="image" src="https://github.com/user-attachments/assets/4d327b39-5a7c-4a91-95c1-0a215b1ca250" /> -> ESTRUTURAÇÃO
+
+```
+xrivate-yapita-zlircle-backend/
+│
+├── .github/                        # CI/CD, Templates de PR, Codeowners
+│   ├── workflows/
+│   │   ├── ci-core.yml             # Testes unitários e linting
+│   │   ├── cd-deploy.yml           # Deploy via ArgoCD/GitOps
+│   │   └── security-scan.yml       # SAST/DAST e auditoria de dependências
+│   └── CODEOWNERS
+│
+├── infrastructure/                 # Infraestrutura como Código (IaC)
+│   ├── kubernetes/                 # Manifestos e Helm Charts
+│   │   ├── base/                   # Configurações base (Namespaces, RBAC)
+│   │   ├── overlays/
+│   │   │   ├── dev/
+│   │   │   ├── staging/
+│   │   │   └── production/         # Kustomize para produção
+│   │   └── istio/                  # Configurações de Service Mesh (mTLS, VirtualServices)
+│   ├── terraform/                  # Provisionamento Cloud (AWS/GCP)
+│   │   ├── modules/
+│   │   │   ├── networking/         # VPC, Subnets, Transit Gateway
+│   │   │   ├── database/           # CockroachDB, Redis, ClickHouse clusters
+│   │   │   └── security/           # HSM, KMS, WAF
+│   │   └── environments/
+│   ── docker/                     # Dockerfiles otimizados (Distroless/Multi-stage)
+│
+├── platform/                       # Camada de Plataforma e Edge
+│   ├── api-gateway/                # GraphQL Federation (Rust/Apollo)
+│   │   ├── src/
+│   │   └── schema/                 # Subgraphs federados
+│   ├── event-bus/                  # Configurações do Apache Kafka/Pulsar
+│   │   ├── topics/                 # Definição de tópicos e partições
+│   │   └── schemas/                # Apache Avro/Protobuf schemas
+│   ── observability/              # OpenTelemetry, Prometheus, Grafana
+│       ├── dashboards/             # Dashboards JSON do Grafana
+│       ├── alerts/                 # Regras de alerta (Prometheus/Alertmanager)
+│       └── otel-collector/         # Configuração do OpenTelemetry Collector
+│
+├── services/                       # Microsserviços de Domínio (Core)
+│   │
+│   ├── vehicle-factory/            # [RUST] Montagem de Veículos Financeiros
+│   │   ├── src/
+│   │   │   ├── domain/             # Entidades, Value Objects, Domain Events
+│   │   │   ├── application/        # Casos de uso (Command/Query Handlers)
+│   │   │   ├── infrastructure/     # Repositories, Event Store, Projections
+│   │   │   ├── interfaces/         # gRPC/GraphQL endpoints
+│   │   │   └── main.rs
+│   │   ├── migrations/             # Migrations do TimescaleDB/PostgreSQL
+│   │   ├── Cargo.toml
+│   │   └── Dockerfile
+│   │
+│   ├── capital-raising/            # [GO] Captações e Matching
+│   │   ├── cmd/
+│   │   │   └── server/
+│   │   ├── internal/
+│   │   │   ├── core/               # Lógica de negócio e Actor Model
+│   │   │   ├── matching/           # Motor de matching de investidores
+│   │   │   ├── compliance/         # Integração KYC/AML
+│   │   │   └── persistence/        # CockroachDB repositories
+│   │   ├── pkg/                    # Bibliotecas internas reutilizáveis
+│   │   ├── api/                    # Definições gRPC (.proto)
+│   │   ├── go.mod
+│   │   ── Dockerfile
+│   │
+│   ├── special-operations/         # [JAVA 21] M&A, Bridge Financing
+│   │   ├── src/main/java/com/xrivate/ops/
+│   │   │   ├── domain/
+│   │   │   ├── application/
+│   │   │   ├── infrastructure/     # Hexagonal ports & adapters
+│   │   │   └── interfaces/
+│   │   ├── src/test/
+│   │   ├── build.gradle.kts
+│   │   └── Dockerfile
+│   │
+│   └── atomic-settlement/          # [RUST] Liquidação Atômica e 2PC
+│       ├── src/
+│       │   ├── saga/               # Orquestração de Sagas
+│       │   ├── twopc/              # Implementação Two-Phase Commit
+│       │   ├── outbox/             # Outbox pattern processor
+│       │   └── idempotency/        # Gerenciador de chaves de idempotência
+│       ├── Cargo.toml
+│       └── Dockerfile
+│
+├── workflows/                      # Orquestração de Processos de Longa Duração
+│   ├── temporal/                   # Workflows do Temporal.io
+│   │   ├── vehicle_creation/
+│   │   ├── capital_round/
+│   │   └── settlement_flow/
+│   └── bpmn/                       # Diagramas BPMN 2.0 (Camunda/Zeebe)
+│       └── ma_approval_process.bpmn
+│
+├── shared/                         # Núcleo Compartilhado e Contratos
+│   ├── contracts/                  # Protobuf, Avro, OpenAPI
+│   │   ├── proto/
+│   │   └── openapi/
+│   ├── lib-rust/                   # Biblioteca Rust compartilhada (Utils, Crypto)
+│   ├── lib-go/                     # Biblioteca Go compartilhada
+│   └── lib-java/                   # Biblioteca Java compartilhada
+│
+├── data/                           # Gestão de Dados e Analytics
+│   ├── schemas/
+│   │   ├── oltp/                   # Schemas CockroachDB/Yugabyte
+│   │   ├── olap/                   # Schemas ClickHouse (Star schema)
+│   │   └── graph/                  # Schemas Neo4j (Cypher scripts)
+│   └── seeds/                      # Dados iniciais para dev/staging
+│
+├── security/                       # Segurança e Zero Trust
+│   ├── opa/                        # Open Policy Agent (Rego policies)
+│   │   └── policies/
+│   ├── vault/                      # Configurações e templates do HashiCorp Vault
+│   └── hsm/                        # Scripts de gerenciamento de chaves HSM
+│
+├── scripts/                        # Scripts de automação e utilitários
+│   ├── setup-local.sh              # Sobe ambiente local (Docker Compose + K3s)
+│   ├── run-benchmarks.sh           # Scripts de carga (k6, Locust)
+│   └── db-migrate.sh               # Wrapper para rodar migrations em todos os serviços
+│
+── docs/                           # Documentação Arquitetural
+│   ├── adr/                        # Architecture Decision Records
+│   ├── diagrams/                   # C4 Model diagrams (PlantUML/Mermaid)
+│   └── runbooks/                   # Procedimentos de incidentes
+│
+├── .gitignore
+├── .pre-commit-config.yaml         # Linters e formatters (Rustfmt, Gofmt, Spotless)
+├── Makefile                        # Comandos de alto nível (make build, make test)
+├── README.md
+└── LICENSE
+```
+
+---
+
 # Visão Geral
 
 O XrivateYapitaZlircle é um conceito de plataforma privada voltada para empresários, holdings, investidores qualificados e family offices.
