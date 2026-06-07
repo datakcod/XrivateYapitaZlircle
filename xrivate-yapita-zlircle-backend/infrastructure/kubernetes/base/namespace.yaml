@@ -1,0 +1,39 @@
+# ============================================
+# NAMESPACE PRINCIPAL - XRIVATE YAPITA ZLIRCLE
+# ============================================
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: xrivate-production
+  labels:
+    app.kubernetes.io/name: xrivate-yapita-zlircle
+    app.kubernetes.io/part-of: xrivate-platform
+    istio-injection: enabled  # Service Mesh automático
+  annotations:
+    description: "Namespace de produção para o ecossistema XrivateYapitaZlircle"
+    security-level: "critical"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: xrivate-staging
+  labels:
+    app.kubernetes.io/name: xrivate-yapita-zlircle
+    istio-injection: enabled
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: xrivate-dev
+  labels:
+    app.kubernetes.io/name: xrivate-yapita-zlircle
+    istio-injection: enabled
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: xrivate-infra
+  labels:
+    app.kubernetes.io/name: xrivate-infrastructure
+  annotations:
+    description: "Namespace para infraestrutura compartilhada (Kafka, DBs, Vault)"
