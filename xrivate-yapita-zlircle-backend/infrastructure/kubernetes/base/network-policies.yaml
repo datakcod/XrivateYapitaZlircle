@@ -1,0 +1,131 @@
+# ============================================
+# NETWORK POLICIES - ZERO TRUST
+# ============================================
+# Regras de rede restritivas: default deny + allow específico
+
+# Default DENY todo tráfego de entrada
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny-ingress
+  namespace: xrivate-production
+spec:
+  podSelector: {}
+  policyTypes:
+    - Ingress
+---
+# Default DENY todo tráfego de saída
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny-egress
+  namespace: xrivate-production
+spec:
+  podSelector: {}
+  policyTypes:
+    - Egress
+---
+# ALLOW: API Gateway → Todos os serviços
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-api-gateway-to-services
+  namespace: xrivate-production
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/tier: core-service
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app.kubernetes.io/name: api-gateway
+      ports:
+        - protocol: TCP
+          port: 50051  # gRPC
+---
+# ALLOW: Serviços → Kafka
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-services-to-kafka
+  namespace: xrivate-production
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: kafka
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              name: xrivate-production
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/tier: core-service
+      ports:
+        - protocol: TCP
+          port: 9092
+---
+# ALLOW: Serviços → CockroachDB
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-services-to-cockroachdb
+  namespace: xrivate-production
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: cockroachdb
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              name: xrivate-production
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/tier: core-service
+      ports:
+        - protocol: TCP
+          port: 26257
+---
+# ALLOW: Serviços → Redis
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-services-to-redis
+  namespace: xrivate-production
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: redis
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              name: xrivate-production
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/tier: core-service
+      ports:
+        - protocol: TCP
+          port: 6379
+---
+# ALLOW: Todos → Observability (Prometheus scrape)
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-prometheus-scrape
+  namespace: xrivate-production
+spec:
+  podSelector: {}
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              name: xrivate-infra
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: prometheus
+      ports:
+        - protocol: TCP
+          port: 9090
