@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package xrivate.vehicle;
+
+option go_package = "github.com/xrivate/shared/contracts/proto";
+
+// Definição do Veículo
+message Vehicle {
+  string id = 1;
+  string name = 2;
+  string type = 3;
+  string min_circle_tier = 4;
+  double total_capacity = 5;
+  double allocated_capacity = 6;
+  double expected_yield = 7;
+  string status = 8;
+}
+
+// Requisição de Criação
+message CreateVehicleRequest {
+  string name = 1;
+  string type = 2;
+  string min_circle_tier = 3;
+  double total_capacity = 4;
+  double expected_yield = 5;
+}
+
+// Resposta Padrão
+message VehicleResponse {
+  bool success = 1;
+  Vehicle vehicle = 2;
+  string message = 3;
+}
+
+// Serviço gRPC
+service VehicleService {
+  rpc CreateVehicle (CreateVehicleRequest) returns (VehicleResponse);
+  rpc GetVehicle (GetVehicleRequest) returns (VehicleResponse);
+}
+
+message GetVehicleRequest {
+  string id = 1;
+}
