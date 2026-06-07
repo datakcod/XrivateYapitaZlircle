@@ -2,7 +2,19 @@
 
 # Private Liquidity & Capital Network
 
-Transformando liquidez institucional em um ecossistema de capital produtivo.
+Plataforma privada de capital conectando empresários, holdings, investidores qualificados e family offices em uma rede de liquidez compartilhada.
+
+---
+
+# Visão Geral
+
+O XrivateYapitaZlircle é um conceito de plataforma privada voltada para empresários, holdings, investidores qualificados e family offices.
+
+A proposta consiste em conectar participantes com elevada capacidade financeira em uma rede de liquidez compartilhada, geração de oportunidades e participação econômica nas receitas do ecossistema.
+
+O objetivo é transformar recursos ociosos em um ativo estratégico capaz de financiar operações, estruturar negócios e gerar retornos recorrentes.
+
+---
 
 # Fluxograma
 
@@ -143,13 +155,13 @@ xrivate-yapita-zlircle-backend/
 
 ---
 
-# Visão Geral
+## Arquitetura
 
-O XrivateYapitaZlircle é um conceito de plataforma privada voltada para empresários, holdings, investidores qualificados e family offices.
-
-A proposta consiste em conectar participantes com elevada capacidade financeira em uma rede de liquidez compartilhada, geração de oportunidades e participação econômica nas receitas do ecossistema.
-
-O objetivo é transformar recursos ociosos em um ativo estratégico capaz de financiar operações, estruturar negócios e gerar retornos recorrentes.
+Sistema distribuído poliglota com:
+- **Rust** — Vehicle Factory + Atomic Settlement (performance + atomicidade)
+- **Go** — Capital Raising (concorrência massiva)
+- **Java 21** — Special Operations (ecossistema corporativo)
+- **GraphQL Federation** — API Gateway unificado
 
 ---
 
@@ -199,7 +211,7 @@ R$ 50 milhões
 
 Patrimônio mínimo:
 
-R$ 100 milhões
+R$ +100 milhões
 
 ---
 
