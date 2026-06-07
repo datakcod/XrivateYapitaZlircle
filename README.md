@@ -66,29 +66,6 @@ R$ 100 milhões
 
 ---
 
-Estrutura Conceitual
-
-Empresários
-Family Offices
-Holdings
-
-Investidores Institucionais
-
-        │
-        ▼
-
-Xrivate Capital Network
-
-         │
-
- ┌──────┼──────┬───────┐
-
- ▼      ▼      ▼       ▼
-
-Liquidez Crédito M&A Tesouraria
-
----
-
 Alocação Modelo
 
 Pool Total:
