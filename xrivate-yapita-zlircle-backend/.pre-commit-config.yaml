@@ -1,0 +1,99 @@
+# ============================================
+# PRE-COMMIT HOOKS - XRIVATE YAPITA ZLIRCLE
+# ============================================
+# Instalação: pre-commit install
+# Execução manual: pre-commit run --all-files
+
+repos:
+  # ==========================================
+  # HOOKS GERAIS
+  # ==========================================
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+        args: ['--allow-multiple-documents']
+      - id: check-json
+      - id: check-toml
+      - id: check-added-large-files
+        args: ['--maxkb=1000']
+      - id: check-merge-conflict
+      - id: detect-private-key
+      - id: no-commit-to-branch
+        args: ['--branch', 'main', '--branch', 'production']
+
+  # ==========================================
+  # RUST (Vehicle Factory + Atomic Settlement)
+  # ==========================================
+  - repo: https://github.com/doublify/pre-commit-rust
+    rev: v1.0
+    hooks:
+      - id: fmt
+        name: 'Rust: cargo fmt'
+        args: ['--manifest-path', 'services/vehicle-factory/Cargo.toml', '--all', '--']
+      - id: cargo-check
+        name: 'Rust: cargo check'
+        args: ['--manifest-path', 'services/vehicle-factory/Cargo.toml']
+      - id: clippy
+        name: 'Rust: cargo clippy'
+        args: ['--manifest-path', 'services/vehicle-factory/Cargo.toml', '--', '-D', 'warnings']
+
+  # ==========================================
+  # GO (Capital Raising)
+  # ==========================================
+  - repo: https://github.com/dnephin/pre-commit-golang
+    rev: v0.5.1
+    hooks:
+      - id: go-fmt
+        name: 'Go: go fmt'
+      - id: go-vet
+        name: 'Go: go vet'
+      - id: go-imports
+        name: 'Go: go imports'
+      - id: golangci-lint
+        name: 'Go: golangci-lint'
+        args: ['--config', '.golangci.yml']
+
+  # ==========================================
+  # JAVA (Special Operations)
+  # ==========================================
+  - repo: https://github.com/macisamuele/language-formatters-pre-commit-hooks
+    rev: v2.12.0
+    hooks:
+      - id: pretty-format-java
+        name: 'Java: google-java-format'
+        args: [--autofix]
+
+  # ==========================================
+  # SECRETS DETECTION
+  # ==========================================
+  - repo: https://github.com/Yelp/detect-secrets
+    rev: v1.4.0
+    hooks:
+      - id: detect-secrets
+        name: '🔐 Detect secrets'
+        args: ['--baseline', '.secrets.baseline']
+
+  # ==========================================
+  # TERRAFORM
+  # ==========================================
+  - repo: https://github.com/antonbabenko/pre-commit-terraform
+    rev: v1.83.6
+    hooks:
+      - id: terraform_fmt
+        name: 'Terraform: fmt'
+      - id: terraform_validate
+        name: 'Terraform: validate'
+      - id: terraform_tflint
+        name: 'Terraform: tflint'
+
+  # ==========================================
+  # DOCKER
+  # ==========================================
+  - repo: https://github.com/hadolint/hadolint
+    rev: v2.12.0
+    hooks:
+      - id: hadolint-docker
+        name: 'Docker: hadolint'
