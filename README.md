@@ -73,12 +73,18 @@ Family Offices
 Holdings
 
 Investidores Institucionais
+
         │
         ▼
+
 Xrivate Capital Network
-        │
+
+         │
+
  ┌──────┼──────┬───────┐
+
  ▼      ▼      ▼       ▼
+
 Liquidez Crédito M&A Tesouraria
 
 ---
