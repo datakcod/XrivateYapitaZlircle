@@ -1,0 +1,228 @@
+# ============================================
+# INFRAESTRUTURA LOCAL - XRIVATE YAPITA ZLIRCLE
+# ============================================
+# Uso: docker-compose -f docker-compose.infra.yml up -d
+
+version: '3.9'
+
+services:
+  # ==========================================
+  # MESSAGE BROKER - Apache Kafka
+  # ==========================================
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.5.0
+    container_name: xz-zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - "2181:2181"
+    networks:
+      - xrivate-network
+
+  kafka:
+    image: confluentinc/cp-kafka:7.5.0
+    container_name: xz-kafka
+    depends_on:
+      - zookeeper
+    ports:
+      - "9092:9092"
+      - "29092:29092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+    networks:
+      - xrivate-network
+
+  # ==========================================
+  # DATABASES
+  # ==========================================
+  
+  # CockroachDB - OLTP distribuído
+  cockroachdb:
+    image: cockroachdb/cockroach:v23.1.11
+    container_name: xz-cockroachdb
+    command: start-single-node --insecure
+    ports:
+      - "26257:26257"   # SQL
+      - "8081:8080"     # Admin UI
+    volumes:
+      - cockroach-data:/cockroach/cockroach-data
+    networks:
+      - xrivate-network
+
+  # TimescaleDB - Time Series
+  timescaledb:
+    image: timescale/timescaledb:latest-pg15
+    container_name: xz-timescaledb
+    environment:
+      POSTGRES_USER: xrivate
+      POSTGRES_PASSWORD: xrivate_dev
+      POSTGRES_DB: xrivate_metrics
+    ports:
+      - "5433:5432"
+    volumes:
+      - timescale-data:/var/lib/postgresql/data
+    networks:
+      - xrivate-network
+
+  # ClickHouse - OLAP
+  clickhouse:
+    image: clickhouse/clickhouse-server:23.10
+    container_name: xz-clickhouse
+    ports:
+      - "8123:8123"   # HTTP
+      - "9000:9000"   # Native
+    volumes:
+      - clickhouse-data:/var/lib/clickhouse
+    networks:
+      - xrivate-network
+
+  # Neo4j - Graph DB
+  neo4j:
+    image: neo4j:5.13
+    container_name: xz-neo4j
+    environment:
+      NEO4J_AUTH: neo4j/xrivate_dev
+      NEO4J_PLUGINS: '["apoc"]'
+    ports:
+      - "7474:7474"   # Browser
+      - "7687:7687"   # Bolt
+    volumes:
+      - neo4j-data:/data
+    networks:
+      - xrivate-network
+
+  # ==========================================
+  # CACHE
+  # ==========================================
+  redis:
+    image: redis:7-alpine
+    container_name: xz-redis
+    command: redis-server --appendonly yes --requirepass xrivate_dev
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    networks:
+      - xrivate-network
+
+  # ==========================================
+  # OBJECT STORAGE
+  # ==========================================
+  minio:
+    image: minio/minio:latest
+    container_name: xz-minio
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: xrivate
+      MINIO_ROOT_PASSWORD: xrivate_dev
+    ports:
+      - "9002:9000"   # API
+      - "9001:9001"   # Console
+    volumes:
+      - minio-data:/data
+    networks:
+      - xrivate-network
+
+  # ==========================================
+  # SECURITY
+  # ==========================================
+  vault:
+    image: hashicorp/vault:1.15
+    container_name: xz-vault
+    cap_add:
+      - IPC_LOCK
+    environment:
+      VAULT_DEV_ROOT_TOKEN_ID: xrivate-dev-token
+      VAULT_DEV_LISTEN_ADDRESS: 0.0.0.0:8200
+    ports:
+      - "8200:8200"
+    networks:
+      - xrivate-network
+
+  # ==========================================
+  # WORKFLOW ENGINE
+  # ==========================================
+  temporal:
+    image: temporalio/auto-setup:1.21
+    container_name: xz-temporal
+    depends_on:
+      - cockroachdb
+    environment:
+      - DB=postgresql
+      - DB_PORT=26257
+      - POSTGRES_USER=root
+      - POSTGRES_PWD=
+      - POSTGRES_SEEDS=cockroachdb
+    ports:
+      - "7233:7233"   # gRPC
+      - "8080:8080"   # Web UI
+    networks:
+      - xrivate-network
+
+  # ==========================================
+  # OBSERVABILITY
+  # ==========================================
+  prometheus:
+    image: prom/prometheus:v2.47.0
+    container_name: xz-prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./platform/observability/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus-data:/prometheus
+    networks:
+      - xrivate-network
+
+  grafana:
+    image: grafana/grafana:10.1.5
+    container_name: xz-grafana
+    ports:
+      - "3001:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=xrivate_dev
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./platform/observability/grafana/provisioning:/etc/grafana/provisioning
+    networks:
+      - xrivate-network
+
+  jaeger:
+    image: jaegertracing/all-in-one:1.50
+    container_name: xz-jaeger
+    ports:
+      - "16686:16686"  # UI
+      - "4317:4317"    # OTLP gRPC
+      - "4318:4318"    # OTLP HTTP
+    environment:
+      - COLLECTOR_OTLP_ENABLED=true
+    networks:
+      - xrivate-network
+
+# ============================================
+# VOLUMES
+# ============================================
+volumes:
+  cockroach-data:
+  timescale-data:
+  clickhouse-data:
+  neo4j-data:
+  redis-data:
+  minio-data:
+  prometheus-data:
+  grafana-data:
+
+# ============================================
+# REDES
+# ============================================
+networks:
+  xrivate-network:
+    driver: bridge
