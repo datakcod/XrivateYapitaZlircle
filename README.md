@@ -1,12 +1,12 @@
 # XrivateYapitaZlircle
 
-Private Liquidity & Capital Network
+# Private Liquidity & Capital Network
 
 Transformando liquidez institucional em um ecossistema de capital produtivo.
 
 ---
 
-Visão Geral
+# Visão Geral
 
 O XrivateYapitaZlircle é um conceito de plataforma privada voltada para empresários, holdings, investidores qualificados e family offices.
 
@@ -16,7 +16,7 @@ O objetivo é transformar recursos ociosos em um ativo estratégico capaz de fin
 
 ---
 
-Problema
+# Problema
 
 Grandes patrimônios frequentemente apresentam:
 
@@ -28,7 +28,7 @@ Grandes patrimônios frequentemente apresentam:
 
 ---
 
-Solução
+# Solução
 
 Uma rede privada onde os participantes:
 
@@ -40,7 +40,7 @@ Uma rede privada onde os participantes:
 
 ---
 
-Público-Alvo
+# Público-Alvo
 
 Circle Gold
 
@@ -50,7 +50,7 @@ R$ 10 milhões
 
 ---
 
-Circle Black
+# Circle Black
 
 Patrimônio mínimo:
 
@@ -58,7 +58,7 @@ R$ 50 milhões
 
 ---
 
-Circle Sovereign
+# Circle Sovereign
 
 Patrimônio mínimo:
 
@@ -66,7 +66,7 @@ R$ 100 milhões
 
 ---
 
-Alocação Modelo
+# Alocação Modelo
 
 Pool Total:
 
@@ -86,7 +86,7 @@ Distribuição:
 
 ---
 
-Fontes de Receita
+# Fontes de Receita
 
 Gestão de Liquidez
 
@@ -94,31 +94,31 @@ Aplicação eficiente de recursos de curto prazo.
 
 ---
 
-Crédito Corporativo
+# Crédito Corporativo
 
 Estruturação de operações para empresas selecionadas.
 
 ---
 
-M&A
+# M&A
 
 Originação e assessoria em fusões e aquisições.
 
 ---
 
-Mercado Privado
+# Mercado Privado
 
 Participações estratégicas em empresas e projetos.
 
 ---
 
-Estruturação Financeira
+# Estruturação Financeira
 
 Montagem de veículos financeiros, captações e operações especiais.
 
 ---
 
-Modelo de Distribuição
+# Modelo de Distribuição
 
 Receita Bruta Anual (Hipótese)
 
@@ -136,7 +136,7 @@ Distribuição:
 
 ---
 
-Liquidez
+# Liquidez
 
 O capital principal não possui liquidez imediata.
 
@@ -148,7 +148,7 @@ Modelos possíveis:
 
 ---
 
-Mercado Secundário Interno
+# Mercado Secundário Interno
 
 Participações podem ser negociadas entre membros qualificados.
 
@@ -160,7 +160,7 @@ Benefícios:
 
 ---
 
-Governança
+# Governança
 
 Comitê de Crédito
 
@@ -180,7 +180,7 @@ Validação de processos e controles.
 
 ---
 
-Dashboard do Membro
+# Dashboard do Membro
 
 Indicadores disponíveis:
 
@@ -194,7 +194,7 @@ Indicadores disponíveis:
 
 ---
 
-Diferenciais
+# Diferenciais
 
 - Rede fechada por indicação.
 - Participação econômica no ecossistema.
@@ -205,7 +205,7 @@ Diferenciais
 
 ---
 
-Visão de Longo Prazo
+# Visão de Longo Prazo
 
 Construir uma infraestrutura privada de capital capaz de conectar empresários, investidores e empresas em uma rede permanente de liquidez, crescimento e geração de valor.
 
