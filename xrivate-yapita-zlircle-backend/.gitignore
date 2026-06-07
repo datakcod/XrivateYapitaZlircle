@@ -1,0 +1,126 @@
+# ============================================
+# DEPENDÊNCIAS E BUILDS
+# ============================================
+
+# Rust
+**/target/
+**/*.rs.bk
+
+# Go
+**/vendor/
+**/bin/
+**/*.exe
+
+# Java/Gradle
+**/build/
+**/.gradle/
+**/out/
+**/*.class
+**/*.jar
+
+# Node/TypeScript
+**/node_modules/
+**/dist/
+**/.next/
+**/.turbo/
+
+# ============================================
+# AMBIENTE E CONFIGURAÇÕES
+# ============================================
+
+# Environment files
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# Secrets e chaves
+*.pem
+*.key
+*.crt
+*.p12
+*.jks
+*-secret.yaml
+*-secret.json
+
+# ============================================
+# IDEs E EDITORES
+# ============================================
+
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.settings/
+
+# ============================================
+# SISTEMA OPERACIONAL
+# ============================================
+
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# ============================================
+# LOGS E TEMPORÁRIOS
+# ============================================
+
+*.log
+logs/
+tmp/
+temp/
+*.tmp
+*.bak
+*.swp
+
+# ============================================
+# TERRAFORM
+# ============================================
+
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+!example.tfvars
+crash.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# ============================================
+# KUBERNETES
+# ============================================
+
+*.kubeconfig
+kube/config-local
+
+# ============================================
+# DOCKER
+# ============================================
+
+docker-compose.override.yml
+
+# ============================================
+# COBERTURA E TESTES
+# ============================================
+
+coverage/
+*.lcov
+.nyc_output/
+test-results/
+playwright-report/
+
+# ============================================
+# DOCUMENTAÇÃO GERADA
+# ============================================
+
+docs/generated/
